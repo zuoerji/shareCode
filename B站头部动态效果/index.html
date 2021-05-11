@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        video {
+            transform: translate(-100px, 0px)
+        }
+
+        .box {
+            overflow: hidden;
+            position: relative;
+        }
+        .box img{
+            position: absolute;
+            left:0px;
+            top:8px;
+            transition: all 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <video src="./dist/a.webm" muted autoplay loop></video>
+    </div>
+</body>
+<script>
+    let box = document.querySelector('.box')
+    let video = document.querySelector('video')
+
+    box.addEventListener('mousemove', move)
+
+    function move(e) {
+        let moveX = -100 - e.clientX/40
+        video.style.transform = `translate(${moveX}px,0px)`
+    }
+    // 最大宽度
+    let maxWidth = box.offsetWidth
+    // 最大高度
+    let maxHeight = box.offsetHeight
+
+    setInterval(()=>{
+        snowMove()
+    },200)
+
+    function snowMove(){
+        // 1.js 创建 img
+        let snowImg = document.createElement('img')
+        // 2.图片大小 随机
+        snowImg.style.width = parseInt(Math.random()*20+5) + 'px'
+        // 3.图片位置 随机
+        snowImg.style.left = parseInt(Math.random()*maxWidth) + 'px'
+        snowImg.src = './dist/snowflake.png'
+        box.appendChild(snowImg)
+
+
+        // 4.下落速度 随机
+        let speed = parseInt(Math.random()*30 + 5)
+
+        setInterval(()=>{
+            let top = snowImg.offsetTop
+            if(top>maxHeight){
+                box.removeChild(snowImg)
+            }else{
+                top += speed
+                snowImg.style.top = top + 'px'
+            }
+        },100)
+    }
+</script>
+
+</html>
