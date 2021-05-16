@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 构造函数继承
+    // 缺点：原型链上的方法和属性没有办法继承
+    // function Person() {
+    //     this.name = "person"
+    //     this.say = function () {
+    //         console.log('say')
+    //     }
+    // }
+    // Person.prototype.run = function () {
+    //     console.log('run')
+    // }
+    // Person.prototype.hobby = '吃饭'
+    // function Student() {
+    //     Person.call(this)
+    //     this.age = 19
+    // }
+
+    // let s1 = new Student()
+    // console.log(s1.hobby)
+
+    // 原型链继承
+    // 缺点：实例化原型对象的属性是引用类型的时候，数据互相受到影响
+    // function Person() {
+    //     this.name = "person"
+    //     this.arr = [1, 2]
+    //     this.say = function () {
+    //         console.log('say')
+    //     }
+    // }
+    // Person.prototype.run = function () {
+    //     console.log('run')
+    // }
+    // Person.prototype.hobby = '吃饭'
+    // function Student() {
+    //     this.age = 19
+    // }
+
+    // Student.prototype = new Person()
+    // let s1 = new Student()
+    // let s2 = new Student()
+    // s1.arr.push(3)
+    // console.log(s1,'s1')
+    // console.log(s2,'s2')
+
+    // 组合式继承
+    // function Person() {
+    //     this.name = "person"
+    //     this.arr = [1, 2]
+    //     this.say = function () {
+    //         console.log('say')
+    //     }
+    // }
+    // Person.prototype.run = function () {
+    //     console.log('run')
+    // }
+    // Person.prototype.hobby = '吃饭'
+    // function Student() {
+    //     Person.call(this)
+    //     this.age = 19
+    // }
+
+    // Student.prototype = new Person()
+    // let s1 = new Student()
+    // let s2 = new Student()
+    // s1.arr.push(3)
+    // console.log(s1.hobby, 's1')
+    // console.log(s2, 's2')
+
+    // 组合式继承优化
+    function Person() {
+        this.name = "person"
+        this.arr = [1, 2]
+        this.say = function () {
+            console.log('say')
+        }
+    }
+    Person.prototype.run = function () {
+        console.log('run')
+    }
+    Person.prototype.hobby = '吃饭'
+    function Student() {
+        Person.call(this)
+        this.age = 19
+    }
+
+    Student.prototype = Object.create(Person.prototype)
+    Student.prototype.constructor = Student
+    let p1 = new Person()
+    let s1 = new Student()
+    let s2 = new Student()
+    s1.arr.push(3)
+    console.log(s1, 's1')
+    console.log(s2, 's2')
+    console.log(p1, 'p1')
+
+
+</script>
+
+</html>
