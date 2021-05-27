@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            display: grid;
+            grid-template-columns: 100px auto 100px;
+            grid-template-rows: 100px;
+        }
+        .left{
+            background-color: green;
+        }
+        .right{
+            background-color: red;
+        }
+        .center{
+            background-color: blue;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 圣杯布局的五种方式 -->
+    <div class="box">
+        <div class="left"></div>
+        <div class="center">
+            这是内容
+        </div>
+        <div class="right"></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+.move{
+    position: absolute;
+}
+ul{
+    list-style: none;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
