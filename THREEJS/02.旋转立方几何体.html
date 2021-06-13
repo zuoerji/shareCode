@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./dist/three.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    // 场景 
+    // 相机 
+    // 渲染器 
+    // 对象(平板,立方体)
+    // 1. 几何体 2.材质 3.对象(几何体，材质)
+    // 新增功能 旋转 阴影
+
+    // 添加光源步骤
+    //  1.添加光源到场景
+    //  2.开启渲染器阴影开关 renderer.shadowMapEnabled = true
+    //  3.更改材质 MeshLambertMaterial
+    // 4. 开启对象阴影  plane.receiveShadow = true cube.castShadow = true
+
+    // 创建对象
+    var scene = new THREE.Scene()
+    // 创建相机
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000)
+    // 创建渲染器
+    var renderer = new THREE.WebGLRenderer()
+    // 设置渲染器的颜色
+    renderer.setClearColor(new THREE.Color(0x000000))
+    // 设置渲染器的大小
+    renderer.setSize(window.innerWidth, window.innerHeight)
+
+    // 阴影
+    renderer.shadowMapEnabled = true
+
+    // 创建对象 --- 平板
+    // 创建几何对象
+    var planeGeometry = new THREE.PlaneGeometry(60, 20)
+    // 材质
+    var planeMeterial = new THREE.MeshLambertMaterial({ color: 0xAAAAA })
+    // 创建对象
+    var plane = new THREE.Mesh(planeGeometry, planeMeterial)
+    plane.rotation.x = -0.5 * Math.PI
+    plane.position.set(15, 0, 0)
+    // 开启阴影
+    plane.receiveShadow = true
+    scene.add(plane)
+
+    // 创建对象 --- 立方体
+    // 创建结合对象
+    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
+    // 材质
+    var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000 })
+    // 创建对象
+    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+    cube.position.set(-4, 3, 0)
+    cube.castShadow = true
+    scene.add(cube)
+
+    // 添加光源
+    var spotLight = new THREE.SpotLight(0xFFFFFF)
+    spotLight.position.set(-40, 40, -15)
+    spotLight.castShadow = true
+
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+
+    spotLight.shadow.camera.near = 40;
+    spotLight.shadow.camera.far = 130;
+
+    scene.add(spotLight)
+
+
+
+
+    camera.position.set(-30, 40, 30)
+    camera.lookAt(scene.position)
+
+    document.getElementById('app').appendChild(renderer.domElement)
+
+    renderer.render(scene, camera)
+
+    function anmiate() {
+        cube.rotation.x += 0.01
+        cube.rotation.y += 0.01
+        renderer.render(scene, camera)
+        requestAnimationFrame(anmiate)
+    }
+    anmiate()
+
+
+</script>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./dist/three.js"></script>
+    <script src="./dist/TrackballControls.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    // 场景 
+    // 相机 
+    // 渲染器 
+    // 对象(平板,球体,立方体)
+    // 1. 几何体 2.材质 3.对象(几何体，材质)
+
+    // 创建场景
+    var scene = new THREE.Scene()
+    // 创建相机
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / innerHeight, 1, 1000)
+    // 创建渲染器
+    var renderer = new THREE.WebGLRenderer()
+    // 设置渲染器颜色
+    renderer.setClearColor(new THREE.Color(0x000000))
+    // 设置大小
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.shadowMapEnabled = true
+
+    // 创建平板
+    // 平板几何
+    var planeGeometry = new THREE.PlaneGeometry(60, 20)
+    // 材质
+    var planeMaterial = new THREE.MeshLambertMaterial({ color: 0xFFFFFF })
+    var plane = new THREE.Mesh(planeGeometry, planeMaterial)
+    plane.rotation.x = -0.5 * Math.PI
+    plane.position.set(15, 0, 0)
+
+    // 设置阴影效果
+    plane.receiveShadow = true
+    scene.add(plane)
+
+    // 创建立方体
+    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
+    // 材质
+    var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000 })
+    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+    cube.position.set(-4, 3, 0)
+    // 设置阴影
+    cube.castShadow = true
+    scene.add(cube)
+
+    // 创建几何球体
+    var sphereGeometry = new THREE.SphereGeometry(4, 20, 20)
+    // 材质
+    var sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x7777FF })
+
+    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+    sphere.position.set(20, 4, 2)
+    // 设置阴影
+    sphere.castShadow = true
+    scene.add(sphere)
+
+    // 添加光源
+    var spotLight = new THREE.SpotLight(0xFFFFFF)
+    spotLight.position.set(-40, 40, -15)
+    spotLight.castShadow = true
+
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+
+    spotLight.shadow.camera.near = 40;
+    spotLight.shadow.camera.far = 130;
+
+    scene.add(spotLight)
+
+
+    camera.position.set(-30, 40, 30)
+    camera.lookAt(scene.position)
+
+    document.getElementById('app').appendChild(renderer.domElement)
+    // 添加 鼠标拖动
+    var tracballControls = new THREE.TrackballControls(camera, renderer.domElement)
+    var clock = new THREE.Clock()
+    var step = 0
+    function anmitate() {
+        // 旋转的立方体
+        cube.rotation.x += 0.01
+        step += 0.04
+        sphere.position.x = 20 + 10 * (Math.cos(step))
+        sphere.position.y = 2 + 10 * Math.abs(Math.sin(step))
+        // 拖动计算
+        tracballControls.update(clock.getDelta())
+        renderer.render(scene, camera)
+        requestAnimationFrame(anmitate)
+
+    }
+    anmitate()
+
+
+</script>
+
+</html>

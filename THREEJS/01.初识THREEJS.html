@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./dist/three.js"></script>
+
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    // 场景 
+    // 相机 
+    // 渲染器 
+    // 对象(平板，球几何体,立方体)
+    // 1. 几何体 2.材质 3.对象(几何体，材质)
+
+    // 创建场景
+    var scene = new THREE.Scene()
+    // 创建相机
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+    // 创建渲染器
+    var renderer = new THREE.WebGLRenderer();
+    // 设置渲染器的颜色
+    renderer.setClearColor(new THREE.Color(0x000000));
+    // 设置渲染器的大小
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // 创建对象---平面几何
+    // 创建几何体
+    var planeGeometry = new THREE.PlaneGeometry(60, 20)
+    // 网格材质
+    var planeMeterial = new THREE.MeshBasicMaterial({ color: 0xAAAAAA })
+    // 创建平板对象
+    var plane = new THREE.Mesh(planeGeometry, planeMeterial)
+    plane.rotation.x = -0.5 * Math.PI
+    plane.position.set(15, 0, 0)
+    scene.add(plane)
+
+    // // 创建对象--- 球几何体
+    // // 球几何体
+    // var sphereGeometry = new THREE.SphereGeometry(4, 20, 20)
+    // // 材质
+    // var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x7777FF })
+    // // 创建球对象
+    // var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+    // sphere.position.set(20, 4, 2)
+    // scene.add(sphere)
+
+
+    // 创建对象 --- 立方体
+    // 立方体
+    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
+    // 材质
+    var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 })
+
+    // 创建立方体对象
+    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+    cube.position.set(-4, 3, 0)
+
+    scene.add(cube)
+
+
+    camera.position.set(-30, 40, 30)
+    camera.lookAt(scene.position)
+
+    document.getElementById('app').appendChild(renderer.domElement)
+
+    renderer.render(scene, camera)
+
+
+</script>
+
+</html>
