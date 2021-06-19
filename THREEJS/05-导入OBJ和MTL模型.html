@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./dist/newThree.js"></script>
+    <script src="./dist/TrackballControls.js"></script>
+    <script src="./dist/OBJLoader.js"></script>
+    <script src="./dist/MTLLoader.js"></script>
+    <script src="./dist/ColladaLoader.js"></script>
+    <script src="./dist/OBJMTLLoader.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    // 场景 
+    // 相机 
+    // 渲染器 
+    // 导入 obj 和 mtl 文件
+    // 添加光源
+    // 鼠标拖动
+
+    // 创建场景
+    var scene = new THREE.Scene()
+    // 创建相机
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+    // 创建渲染器
+    var renderer = new THREE.WebGLRenderer()
+    // 设置渲染器
+    renderer.setClearColor(new THREE.Color(0xaaaaff))
+    renderer.setSize(window.innerWidth, window.innerHeight)
+
+    // 导入建模文件
+    var loader = new THREE.ColladaLoader();
+
+    var mesh;
+    loader.load("../data/dae/Truck_dae.dae", function (result) {
+        console.log(result)
+        mesh = result.scene.children[0].children[0].clone();
+        mesh.scale.set(4, 4, 4);
+        scene.add(mesh);
+    });
+
+
+    // 添加光源
+    var spotLight = new THREE.SpotLight(0xffffff)
+    spotLight.position.set(0, 40, 30)
+    scene.add(spotLight)
+
+    camera.position.set(-30, 40, 30)
+    camera.lookAt(scene.position)
+
+    document.getElementById('app').appendChild(renderer.domElement)
+
+    // 添加鼠标拖动
+    var trackballControls = new THREE.TrackballControls(camera, renderer.domElement)
+    var clock = new THREE.Clock()
+
+    renderer.render(scene, camera)
+
+    function anmitate() {
+        trackballControls.update(clock.getDelta())
+        renderer.render(scene, camera)
+        requestAnimationFrame(anmitate)
+    }
+    anmitate()
+
+</script>
+
+</html>
