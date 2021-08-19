@@ -1,0 +1,12 @@
+组件通信
+
+    props/$emit
+    eventBus
+    vuex
+    $parent
+    $children
+    $root
+    $refs
+    provide/inject
+    $attrs
+    $listeners
