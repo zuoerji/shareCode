@@ -1,0 +1,15 @@
+1、安装 node 自带安装了npm
+2、知道 npm 的命令
+
+指令：
+    1. npm init -y // 初始化工程，会生成 package.json 文件
+    2. npm i webpack webpack-cli -D // 开发环境下载依赖包
+
+
+webpack的 几个核心模块
+
+    entry: 入口
+    output: 出口
+    module: 配置 loader,loader 是处理非 js 的文件打包
+    plugins: 插件，处理任务，删除，压缩，复制等
+    mode:模式，development(开发) production(生产)

@@ -1,0 +1,180 @@
+1、安装 node 自带安装了npm
+2、知道 npm 的命令
+
+指令：
+    1. npm init -y // 初始化工程，会生成 package.json 文件
+    2. npm i webpack webpack-cli -D // 开发环境下载依赖包
+
+
+webpack的 几个核心模块
+
+    entry: 入口
+    output: 出口
+    module: 配置 loader,loader 是处理非 js 的文件打包
+    plugins: 插件，处理任务，删除，压缩，复制等
+    mode:模式，development(开发) production(生产)
+
+webpack 的配置文件 ：webpack.config.js 使用的是 CommonJS 规范
+entry : 配置入口文件
+output： 配置出口文件
+    filename : 打包的文件名
+module.exports = {
+    entry:"./src/a.js",
+    output:{
+        filename:'bundle.js'
+    }
+}
+
+通过 命令 指定 webpack 配置
+webpack --config 指定配置文件名称
+
+举例： webpack --config webapck.config.dev.js
+
+
+1. webpack 可以指定打包文件
+2. webpack 可以指定打包后的文件名称和路径
+3. webpack 可以指定配置文件
+4. webpack 可以配置模式： development(开发) production(生产)
+
+
+webpack 实现文件监听，自动打包
+1. watch
+    1) 在 package.json 文件中配置脚本 webpack --watch 
+    2) 在 webpack.config.js 文件中配置 watch:true
+2. webpack-dev-server 做了什么事情
+    1) 默认将根目录下面的 public 文件夹开启服务
+    2) 将打包好的文件，放在内存里面
+
+    webpack-dev-server的其他配置
+    --open : 打开默认浏览器
+    --static : 指定文件夹开启服务
+    --port : 设置服务端口
+    --compress : 压缩代码
+    --hot : 热更新
+
+
+插件 html-webpack-plugin 
+1. 安装 npm i html-webpack-plugin -D
+2. 导入 const HtmlWepackPlugin = require('html-webpack-plugin)
+3. 使用 plugins:[ new HtmlWepackPlugin({ filename:文件名,template:模板 }) ]
+
+
+html-webapck-plugin 做了什么事情
+1. 通过模板生成一个 html 文件
+2. 将 html 文件存在内存
+3. 自动将打包好的 js 文件引入到 html 中
+
+webpack 将所有的文件都能打包
+    可以打包的文件:
+        1. js 文件 ： 本身具备模块化，打包 js 的时候畅通无阻
+        2. 非 js 文件 ：
+            css 文件，就需要用到 工具处理（loader）
+            loader 就是将 非js 文件模块化
+
+需要 loader 去处理 非 js 文件 css文件
+npm i css-loader style-loader -D
+css-loader: 将 css 模块化
+style-loader: 将 css 通过 style 标签的形式，引入到 html 里面
+
+总结： 
+    1. 引入 css 文件需要在 js 中引入
+    2. js 本身具备模块化，但是 css 没有
+    3. 需要 使用 loader 去处理 css 的模块化
+    4. 使用两个 loader : style-loader css-loader
+    5. css-loader 是将css 文件模块化
+    6. style-loader 是将 css 模块化后的文件 引入到 html 里面
+
+处理 less 文件
+    1. less 是非 js 文件
+    2. 非 js 文件需要 loader 去打包成模块化
+    3. 需要安装 less less-loader
+        less：解析的 less 语法
+        less-loader: 将 less 转成 css 
+        npm i less less-loader -D
+    4. 配置 webpack.config.js
+
+
+处理 sass 文件
+    1. sass 是非 js 文件
+    2. 非 js 文件需要 loader 去打包成模块化
+    3. 需要安装 node-sass sass-loader
+        node-sass：解析的 sass 语法
+        sass-loader: 将 sass 转成 css 
+        npm i node-sass sass-loader -D
+    4. 配置 webpack.config.js
+
+
+小总结：
+    样式文件的引入
+        1. 一定要在 js 里面引入 样式文件
+            因为 webpack 是 js 打包的
+        2. 由于 样式文件 是非 js 文件
+            非 js 文件不具备模块化
+        3. 需要 loader 将 样式文件模块化
+        4. 需要在 module 里面配置 loader
+
+处理图片：
+    由于 图片是 非 js 文件，需要使用 loader 来处理
+
+    展示图片的三种方式
+    1. 使用背景图片
+    2. 使用 js 导入
+        const imgUrl = require('图片路径')
+        图片的dom对象.src = imgUrl
+    3. 使用 img 标签
+        <img src="图片地址">
+
+
+1.下载 loader 
+    npm i file-loader url-loader -D
+2.配置 webpack.config.js 文件
+    注意 ： html-loader css-loader 和 url-loader 都需要配置 esModule:false
+
+3.下载 html-loader 配置
+    npm i html-loader -D
+
+
+babel 作用，就是将 高版本的 js 语法，转成 低版本浏览器能支持的语法
+
+安装： babel-loader @babel/core(核心代码) @babel/preset-env(预设)
+      @babel/polyfill  // 对象方法，数组方法，需要用它处理
+在webpack.config.js 里面配置
+
+sourceMap: 源码的映射, 将打包好的代码，通过 sourceMap隐射源文件所有在位置
+在 webpack.config.js 文件中配置
+devtool:值；
+    值：
+        1. eval : 生成后的代码 --> 不生成 map 文件
+        2. eval-source-map : 源代码 --> 不生成 map 文件
+        3. eval-cheap-module-source-map ：源代码 --> 不生成 map 文件
+        4. cheap-source-map : 生成后的代码  --> 生成 map 文件
+        5. source-map : 源代码 --> 生成 map 文件
+        6. inline-source-map ： 源代码 --> 将 map 文件以字符串的形式，打包进出口文件中
+
+    只要有 eval 的就不会生成 map 文件
+
+
+webpack 的多页打包
+S:单个 P：页面 A ：应用
+
+多页面打包的核心： 有多个入口，就有多个出口
+
+需要配置两个地方
+    entry : 入口
+    html-webpack-plugin 插件： 需要配置多个页面
+    每个页面只加载自己 js : 需要用到 chunks
+
+webpack 将 第三方库 引入到全局
+1. 安装 npm i jquery -S
+2. 导入 import $ from 'jquery'
+3. 使用 $ 
+由于 第三方库 所有页面都要用到，需要挂载在全局的 window 上
+方法:
+    1. expose-loader // 将第三方库挂载全局
+        1) 安装 npm i exports-loader -D
+        2) 配置
+        注意：可以通过这个 loader 挂载全局，但是还是需要导入一次
+    2. webpack自带的插件 ProvidePlugin
+        1) 配置
+        注意：可以不需要导入，在全局直接使用
+        

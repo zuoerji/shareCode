@@ -1,0 +1,9 @@
+h1{
+    color:red;
+}
+.img-bg{
+    width: 100px;
+    height: 100px;
+    background:url(../imgs/dog1.png);
+    background-size: 100%;
+}

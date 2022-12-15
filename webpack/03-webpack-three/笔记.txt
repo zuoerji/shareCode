@@ -1,0 +1,53 @@
+1、安装 node 自带安装了npm
+2、知道 npm 的命令
+
+指令：
+    1. npm init -y // 初始化工程，会生成 package.json 文件
+    2. npm i webpack webpack-cli -D // 开发环境下载依赖包
+
+
+webpack的 几个核心模块
+
+    entry: 入口
+    output: 出口
+    module: 配置 loader,loader 是处理非 js 的文件打包
+    plugins: 插件，处理任务，删除，压缩，复制等
+    mode:模式，development(开发) production(生产)
+
+webpack 的配置文件 ：webpack.config.js 使用的是 CommonJS 规范
+entry : 配置入口文件
+output： 配置出口文件
+    filename : 打包的文件名
+module.exports = {
+    entry:"./src/a.js",
+    output:{
+        filename:'bundle.js'
+    }
+}
+
+通过 命令 指定 webpack 配置
+webpack --config 指定配置文件名称
+
+举例： webpack --config webapck.config.dev.js
+
+
+1. webpack 可以指定打包文件
+2. webpack 可以指定打包后的文件名称和路径
+3. webpack 可以指定配置文件
+4. webpack 可以配置模式： development(开发) production(生产)
+
+
+webpack 实现文件监听，自动打包
+1. watch
+    1) 在 package.json 文件中配置脚本 webpack --watch 
+    2) 在 webpack.config.js 文件中配置 watch:true
+2. webpack-dev-server 做了什么事情
+    1) 默认将根目录下面的 public 文件夹开启服务
+    2) 将打包好的文件，放在内存里面
+
+    webpack-dev-server的其他配置
+    --open : 打开默认浏览器
+    --static : 指定文件夹开启服务
+    --port : 设置服务端口
+    --compress : 压缩代码
+    --hot : 热更新
